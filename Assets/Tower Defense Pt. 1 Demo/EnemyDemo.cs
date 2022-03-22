@@ -17,7 +17,6 @@ public class EnemyDemo : MonoBehaviour
     private Vector3 newPosition;
     private Vector3 initDir;
     private Vector3 targetPosition;
-    private Vector3 mvmtDir;
 
     public delegate void EnemyDied(EnemyDemo deadEnemy);
     public event EnemyDied OnEnemyDied;
@@ -29,8 +28,9 @@ public class EnemyDemo : MonoBehaviour
     {
         // todo #2
         //   Place our enemy at the starting waypoint
-        transform.position = waypointList[0].transform.position;
+        transform.position = waypointList[0].position;
         targetWaypointIndex = 1;
+        targetPosition = waypointList[targetWaypointIndex].position;
         initDir = (targetPosition - transform.position).normalized;
     }
 
@@ -38,33 +38,14 @@ public class EnemyDemo : MonoBehaviour
     void Update()
     {
         // todo #3 Move towards the next waypoint
-        
-        
-        
+        if (targetWaypointIndex < waypointList.Count)
+        {
+            TargetNextWaypoint();
+        }
+       
 
         // todo #4 Check if destination reaches or passed and change target
 
-        if (targetWaypointIndex < waypointList.Count)
-        {
-            targetPosition = waypointList[targetWaypointIndex].position;
-            if (Vector3.Dot(initDir,mvmtDir) < 0)
-            {
-                Debug.Log("we got inside this conditional");
-                targetWaypointIndex++;
-                initDir = (targetPosition - transform.position).normalized;
-            }
-            else 
-            {
-                
-                mvmtDir = (targetPosition - transform.position).normalized;
-                Debug.Log(mvmtDir);
-                newPosition = transform.position;
-                newPosition += mvmtDir * speed * Time.deltaTime;
-                transform.position = newPosition;
-                // TargetNextWaypoint();
-            }
-        }
-        
 
         // bool enemyDied = false;
         // if (enemyDied)
@@ -76,6 +57,23 @@ public class EnemyDemo : MonoBehaviour
     //-----------------------------------------------------------------------------
     private void TargetNextWaypoint()
     {
-        
+        targetPosition = waypointList[targetWaypointIndex].position;
+        Vector3 movementDir = (targetPosition - transform.position).normalized;
+        newPosition = transform.position;
+        newPosition += movementDir * speed * Time.deltaTime;
+
+        transform.position = newPosition;
+
+        if (Vector3.Dot(initDir, movementDir) < 0)
+        {
+            transform.position = waypointList[targetWaypointIndex].position;
+            targetWaypointIndex++;
+            if (targetWaypointIndex < waypointList.Count)
+            {
+                targetPosition = waypointList[targetWaypointIndex].position;
+                initDir = (targetPosition - transform.position).normalized;
+            }
+            
+        }
     }
 }
