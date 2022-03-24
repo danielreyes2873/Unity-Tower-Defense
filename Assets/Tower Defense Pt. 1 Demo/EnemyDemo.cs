@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyDemo : MonoBehaviour
@@ -11,7 +12,7 @@ public class EnemyDemo : MonoBehaviour
     public int health = 3;
     public float speed = 3;
     public int coins = 3;
-
+    public Player player;
     public List<Transform> waypointList;
     private int targetWaypointIndex;
     private Vector3 newPosition;
@@ -32,6 +33,7 @@ public class EnemyDemo : MonoBehaviour
         targetWaypointIndex = 1;
         targetPosition = waypointList[targetWaypointIndex].position;
         initDir = (targetPosition - transform.position).normalized;
+        StartCoroutine(MouseClickDamage());
     }
 
     //-----------------------------------------------------------------------------
@@ -76,4 +78,41 @@ public class EnemyDemo : MonoBehaviour
             
         }
     }
+
+     void Damage(int damage)
+    {
+        // Debug.Log("this works");
+        health -= damage;
+        Debug.Log($"Enemy Health: {health}");
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+            player.AddCoins(coins);
+        }
+    }
+
+    private void EnemyDies()
+    {
+        
+    }
+    
+    IEnumerator MouseClickDamage()
+    {
+        while (true)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (hitInfo.collider.gameObject.name.Equals("Enemy"))
+                    {
+                        Damage(1);
+                    }
+                }
+            }
+            yield return null;
+        }
+    }
+
 }
