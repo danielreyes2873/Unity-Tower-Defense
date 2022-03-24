@@ -47,13 +47,6 @@ public class EnemyDemo : MonoBehaviour
        
 
         // todo #4 Check if destination reaches or passed and change target
-
-
-        // bool enemyDied = false;
-        // if (enemyDied)
-        // {
-        //     OnEnemyDied?.Invoke(this);
-        // }
     }
 
     //-----------------------------------------------------------------------------
@@ -91,12 +84,7 @@ public class EnemyDemo : MonoBehaviour
         }
     }
 
-    private void EnemyDies()
-    {
-        
-    }
-    
-    IEnumerator MouseClickDamage()
+     IEnumerator MouseClickDamage()
     {
         while (true)
         {

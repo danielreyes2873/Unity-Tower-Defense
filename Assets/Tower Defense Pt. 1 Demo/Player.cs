@@ -23,13 +23,7 @@ public class Player : MonoBehaviour
 
     public void AddCoins(int newCoins)
     {
-        // Debug.Log($"adding {newCoins} coins");
         purse += newCoins;
         score.text = $"Coins: {purse}";
-        // Debug.Log($"You Have {purse} coins");
     }
 }
-
-
-// Basically just undo everything so there is only one enemy
-// undo all the prefab shit
