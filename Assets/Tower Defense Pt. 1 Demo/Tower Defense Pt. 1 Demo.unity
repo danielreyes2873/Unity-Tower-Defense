@@ -471,8 +471,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 4
-  speed: 7.88
-  coins: 178
+  speed: 3
+  coins: 8
   player: {fileID: 8024853528682475230}
   waypointList:
   - {fileID: 6118138775032406489}
