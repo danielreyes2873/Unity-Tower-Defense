@@ -22,8 +22,8 @@ public class EnemyDemo : MonoBehaviour
     private Vector3 initDir;
     private Vector3 targetPosition;
 
-    public delegate void EnemyDied(EnemyDemo deadEnemy);
-    public event EnemyDied OnEnemyDied;
+    // public delegate void EnemyDied(EnemyDemo deadEnemy);
+    // public event EnemyDied OnEnemyDied;
 
     // NOTE! This code should work for any speed value (large or small)
 

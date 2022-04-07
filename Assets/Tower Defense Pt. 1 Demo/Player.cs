@@ -7,7 +7,7 @@ using UnityEngine.SocialPlatforms.Impl;
 public class Player : MonoBehaviour
 {
     public TextMeshProUGUI score;
-    private int purse = 5;
+    public int purse = 8;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +24,12 @@ public class Player : MonoBehaviour
     public void AddCoins(int newCoins)
     {
         purse += newCoins;
+        score.text = $"Coins: {purse}";
+    }
+
+    public void SubtractCoins(int newCoins)
+    {
+        purse -= newCoins;
         score.text = $"Coins: {purse}";
     }
 }
