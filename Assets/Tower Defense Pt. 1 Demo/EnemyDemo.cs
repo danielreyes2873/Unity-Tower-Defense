@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyDemo : MonoBehaviour
 {
@@ -9,18 +10,20 @@ public class EnemyDemo : MonoBehaviour
     //   waypoints
     //   delegate event for outside code to subscribe and be notified of enemy death
 
-    public int health = 3;
+    public int startHealth = 3;
+    private float health;
     public float speed = 3;
     public int coins = 3;
     public Player player;
     public List<Transform> waypointList;
+    public Image healthbar;
     private int targetWaypointIndex;
     private Vector3 newPosition;
     private Vector3 initDir;
     private Vector3 targetPosition;
 
-    public delegate void EnemyDied(EnemyDemo deadEnemy);
-    public event EnemyDied OnEnemyDied;
+    // public delegate void EnemyDied(EnemyDemo deadEnemy);
+    // public event EnemyDied OnEnemyDied;
 
     // NOTE! This code should work for any speed value (large or small)
 
@@ -33,6 +36,7 @@ public class EnemyDemo : MonoBehaviour
         targetWaypointIndex = 1;
         targetPosition = waypointList[targetWaypointIndex].position;
         initDir = (targetPosition - transform.position).normalized;
+        health = startHealth;
         StartCoroutine(MouseClickDamage());
     }
 
@@ -76,6 +80,7 @@ public class EnemyDemo : MonoBehaviour
     {
         // Debug.Log("this works");
         health -= damage;
+        healthbar.fillAmount = health / startHealth;
         Debug.Log($"Enemy Health: {health}");
         if (health <= 0)
         {
