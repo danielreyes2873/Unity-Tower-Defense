@@ -22,6 +22,8 @@ public class EnemyDemo : MonoBehaviour
     private Vector3 initDir;
     private Vector3 targetPosition;
 
+    public GameObject body;
+
     // public delegate void EnemyDied(EnemyDemo deadEnemy);
     // public event EnemyDied OnEnemyDied;
 
@@ -84,8 +86,8 @@ public class EnemyDemo : MonoBehaviour
         Debug.Log($"Enemy Health: {health}");
         if (health <= 0)
         {
-            Destroy(gameObject);
             player.AddCoins(coins);
+            StartCoroutine(Die());
         }
     }
 
@@ -107,5 +109,17 @@ public class EnemyDemo : MonoBehaviour
             yield return null;
         }
     }
+
+     IEnumerator Die()
+     {
+         var p = gameObject.GetComponent<ParticleSystem>();
+         var m = gameObject.GetComponent<MeshRenderer>();
+         var c = transform.GetChild(1).gameObject;
+         p.Play();
+         m.enabled = false;
+         c.SetActive(false);
+         yield return new WaitForSeconds(1);
+         Destroy(gameObject);
+     }
 
 }
