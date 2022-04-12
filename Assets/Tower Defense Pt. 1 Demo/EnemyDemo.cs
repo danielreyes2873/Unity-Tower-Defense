@@ -78,7 +78,7 @@ public class EnemyDemo : MonoBehaviour
         }
     }
 
-     void Damage(int damage)
+     public void Damage(int damage)
     {
         // Debug.Log("this works");
         health -= damage;
