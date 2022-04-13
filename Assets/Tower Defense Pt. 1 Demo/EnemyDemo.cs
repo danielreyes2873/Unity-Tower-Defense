@@ -22,7 +22,13 @@ public class EnemyDemo : MonoBehaviour
     private Vector3 initDir;
     private Vector3 targetPosition;
 
-    public GameObject body;
+    public GameObject tower;
+    private Tower _tower;
+    public float range = 15f;
+    public float fireRate = 1f;
+    private float fireCountdown = 0f;
+
+    // public GameObject body;
 
     // public delegate void EnemyDied(EnemyDemo deadEnemy);
     // public event EnemyDied OnEnemyDied;
@@ -40,6 +46,7 @@ public class EnemyDemo : MonoBehaviour
         initDir = (targetPosition - transform.position).normalized;
         health = startHealth;
         StartCoroutine(MouseClickDamage());
+        InvokeRepeating("FindTower", 0f, fireRate);
     }
 
     //-----------------------------------------------------------------------------
@@ -50,7 +57,18 @@ public class EnemyDemo : MonoBehaviour
         {
             TargetNextWaypoint();
         }
-       
+
+        // if (tower != null)
+        // {
+        //     if (fireCountdown <= 0)
+        //     {
+        //         DamageTower();
+        //         fireCountdown = 1f / fireRate;
+        //     }
+        //     
+        // }
+        //
+        // fireCountdown -= Time.deltaTime;
 
         // todo #4 Check if destination reaches or passed and change target
     }
@@ -78,7 +96,7 @@ public class EnemyDemo : MonoBehaviour
         }
     }
 
-     public void Damage(int damage)
+    public void Damage(int damage)
     {
         // Debug.Log("this works");
         health -= damage;
@@ -91,7 +109,7 @@ public class EnemyDemo : MonoBehaviour
         }
     }
 
-     IEnumerator MouseClickDamage()
+    IEnumerator MouseClickDamage()
     {
         while (true)
         {
@@ -110,16 +128,43 @@ public class EnemyDemo : MonoBehaviour
         }
     }
 
-     IEnumerator Die()
-     {
-         var p = gameObject.GetComponent<ParticleSystem>();
-         var m = gameObject.GetComponent<MeshRenderer>();
-         var c = transform.GetChild(1).gameObject;
-         p.Play();
-         m.enabled = false;
-         c.SetActive(false);
-         yield return new WaitForSeconds(1);
-         Destroy(gameObject);
-     }
+    IEnumerator Die()
+    {
+        var p = gameObject.GetComponent<ParticleSystem>();
+        var m = gameObject.GetComponent<MeshRenderer>();
+        var c = transform.GetChild(1).gameObject;
+        p.Play();
+        m.enabled = false;
+        c.SetActive(false);
+        yield return new WaitForSeconds(1);
+        Destroy(gameObject);
+    }
 
+    void DamageTower()
+    {
+        
+    }
+
+    void FindTower()
+    {
+        if (tower != null)
+        {
+            float distanceToTower = Vector3.Distance(transform.position, tower.transform.position);
+            if (distanceToTower <= range)
+            {
+                _tower = tower.GetComponent<Tower>();
+                if (_tower.health >= 0)
+                {
+                    _tower.Damage(1);
+                }
+            }
+        } else if (tower == null)
+        {
+            CancelInvoke("FindTower");
+        }
+        
+        
+        
+    }
+    
 }
