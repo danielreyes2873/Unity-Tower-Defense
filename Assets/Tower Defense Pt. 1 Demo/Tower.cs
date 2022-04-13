@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityStandardAssets._2D;
 
 public class Tower : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Tower : MonoBehaviour
     public int starthealth = 10;
     public float health;
     public Image healthbar;
+    public GameObject restart;
     
     // Start is called before the first frame update
     void Start()
@@ -45,6 +47,7 @@ public class Tower : MonoBehaviour
         //c.SetActive(false);
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
+        restart.SetActive(true);
     }
     
     IEnumerator MouseClickDamage()

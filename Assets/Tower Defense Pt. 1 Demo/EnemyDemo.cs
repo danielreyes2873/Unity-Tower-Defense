@@ -21,12 +21,12 @@ public class EnemyDemo : MonoBehaviour
     private Vector3 newPosition;
     private Vector3 initDir;
     private Vector3 targetPosition;
-
+    public GameObject restart;
     public GameObject tower;
     private Tower _tower;
     public float range = 15f;
     public float fireRate = 1f;
-    private float fireCountdown = 0f;
+    // private float fireCountdown = 0f;
 
     // public GameObject body;
 
@@ -138,6 +138,7 @@ public class EnemyDemo : MonoBehaviour
         c.SetActive(false);
         yield return new WaitForSeconds(1);
         Destroy(gameObject);
+        restart.SetActive(true);
     }
 
     void DamageTower()
